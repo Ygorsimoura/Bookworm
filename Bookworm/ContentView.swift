@@ -6,29 +6,28 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var book: [Book]
     
-    @AppStorage("Notes") private var notes = ""
-    @AppStorage("Another note") private var  anotherNotes = ""
-    
+    @State private var showingAddScreen = false
     
     var body: some View {
         NavigationStack{
-            Form{
-                Section {
-                    TextField("Enter your text here", text: $notes , axis: .vertical)
-                        .textFieldStyle(.plain)
-                        .padding()
-                    .navigationTitle("Notes")
+            Text("Count \(book.count)")
+                .navigationTitle("Bookworm")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Add Book", systemImage: "plus") {
+                            showingAddScreen.toggle()
+                        }
+                    }
                 }
-                
-                Section {
-                    TextField("Another text", text: $anotherNotes , axis: .vertical)
-                        .textFieldStyle(.plain)
-                        .padding()
+                .sheet(isPresented: $showingAddScreen) {
+                    AddBook()
                 }
-            }
         }
     }
 }
