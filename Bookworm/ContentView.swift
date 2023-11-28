@@ -24,7 +24,7 @@ struct ContentView: View {
                     NavigationLink(value: book) {
                         HStack {
                             EmojiRating(rating: book.rating)
-                                .font(.largeTitle)
+                                .font(.caption)
                             
                             VStack(alignment: .leading) {
                                 Text(book.title)
@@ -39,6 +39,7 @@ struct ContentView: View {
                 }
                 .onDelete(perform: deleteBooks)
             }
+            .padding(.top, 25)
             .navigationTitle("Bookworm")
             .navigationDestination(for: Book.self) { book in
                 DetailView(book: book)
